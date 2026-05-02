@@ -1,0 +1,36 @@
+# Video files
+*.mp4
+*.avi
+*.mov
+*.mkv
+
+# Model weights
+*.pt
+*.pth
+*.ckpt
+*.bin
+*.safetensors
+
+# HPC / cluster paths
+*bridges2*
+*ocean/projects*
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
+*.egg-info/
+dist/
+build/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Experiments and outputs
+experiments/
+outputs/
+*.log
+
+# OS
+.DS_Store
