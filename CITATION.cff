@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use TackleNet, please cite it as below."
+type: dataset
+title: >-
+  TackleNet: A Biomechanical Practice-Video Benchmark for
+  Tackle-Safety Assessment in American Football
+authors:
+  - family-names: Zaidi
+    given-names: Ahsan
+    affiliation: Kansas State University
+  - family-names: Dietrich
+    given-names: Scott
+    affiliation: Albright College
+  - family-names: Shamir
+    given-names: Lior
+    affiliation: Kansas State University
+year: 2026
+license: CC-BY-4.0
+url: "https://www.kaggle.com/datasets/ahsanzaidi786/tacklenet"
+note: "Paper citation to be added upon publication."
