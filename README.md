@@ -84,6 +84,10 @@ tacklenet/
 
 ## Quick Start
 
+**Interactive notebook (no setup required):**
+https://www.kaggle.com/code/ahsanzaidi786/tacklenet-usage
+
+
 ### 1. Install dependencies
 
 ```bash

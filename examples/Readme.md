@@ -98,6 +98,10 @@ kaggle datasets download ahsanzaidi786/tacklenet --unzip -p ./tacklenet_data
 
 # 30-clip sample (~1 GB) — for pipeline verification only
 kaggle datasets download ahsanzaidi786/tacklenet-sample --unzip -p ./tacklenet_sample
+
+**Interactive notebook (no setup required):**
+https://www.kaggle.com/code/ahsanzaidi786/tacklenet-usage
+
 ```
 
 ---
