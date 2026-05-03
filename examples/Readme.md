@@ -264,25 +264,3 @@ Implemented in `data/loader.py` and demonstrated in
 `notebooks/tacklenet_usage.ipynb`.
 
 ---
-
-## Citation
-
-```bibtex
-@dataset{zaidi2026tacklenet,
-  author    = {Zaidi, Ahsan and Dietrich, Scott and Shamir, Lior},
-  title     = {{TackleNet}: A Biomechanical Practice-Video Benchmark for
-               Tackle-Safety Assessment in American Football},
-  year      = {2026},
-  publisher = {Kaggle},
-  url       = {https://www.kaggle.com/datasets/ahsanzaidi786/tacklenet},
-  license   = {CC BY 4.0},
-  note      = {IRB: Kansas State University IRB-13710, Exempt Category 4.
-               Paper citation to be added upon publication.}
-}
-```
-
----
-
-## Contact
-
-**ahsanzaidi@ksu.edu** | KDD Research Laboratory, Kansas State University
