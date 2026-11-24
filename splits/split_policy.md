@@ -64,17 +64,8 @@ These counts define the frozen benchmark split and should be preserved in all of
 
 ---
 
-## Why the split is clip-level rather than session-level
 
-A grouped split by practice session would be preferable because it would reduce the risk of leakage across clips that share session context, camera setup, drill conditions, or participants.
 
-However, reliable session identifiers were **not available in the released annotation file at the time of the dataset freeze**. As a result, a grouped session-level split could not be constructed reproducibly from the public release. The official split therefore uses **clip-level stratified sampling**.
-
-This limitation should be acknowledged in downstream work using the benchmark.
-
-### Recommended limitation statement
-
-> Because reliable session identifiers were not available in the released annotation file at the time of the dataset freeze, the official TackleNet split is stratified at the clip level rather than grouped by session. Clips from the same practice session may therefore appear in different partitions. This is a known limitation of the current public release.
 
 ---
 
