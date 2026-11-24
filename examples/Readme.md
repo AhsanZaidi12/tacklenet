@@ -6,16 +6,14 @@
 [![License: CC BY 4.0](https://img.shields.io/badge/Data-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
 [![Kaggle](https://img.shields.io/badge/Dataset-Kaggle-20BEFF.svg)](https://www.kaggle.com/datasets/ahsanzaidi786/tacklenet)
 
-This repository is the companion code release for the **TackleNet** benchmark dataset,
-accompanying the NeurIPS 2026 Datasets and Benchmarks submission.
+This repository is the companion code release for the **TackleNet** benchmark dataset.
 
 > **Run all commands from the repository root.**
 > Scripts use package-relative imports (`from eval.metrics import ...`) that
 > require the repo root to be on the Python path. Running from a subdirectory
 > will produce `ModuleNotFoundError`.
 
-**Full dataset (~25 GB):** https://www.kaggle.com/datasets/ahsanzaidi786/tacklenet  
-**30-clip sample (~1 GB):** https://www.kaggle.com/datasets/ahsanzaidi786/tacklenet-sample
+
 
 ---
 
