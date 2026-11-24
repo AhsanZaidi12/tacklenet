@@ -2,20 +2,16 @@
 
 **A Biomechanical Practice-Video Benchmark for Tackle-Safety Assessment in American Football**
 
-[![License: MIT](https://img.shields.io/badge/Code-MIT-blue.svg)](LICENSE)
-[![License: CC BY 4.0](https://img.shields.io/badge/Data-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
-[![Kaggle](https://img.shields.io/badge/Dataset-Kaggle-20BEFF.svg)](https://www.kaggle.com/datasets/ahsanzaidi786/tacklenet)
+Code is released under the MIT License. Data are available under CC BY 4.0.
 
-This repository is the companion code release for the **TackleNet** benchmark dataset,
-accompanying the NeurIPS 2026 Datasets and Benchmarks submission.
+TackleNet is a video benchmark for studying tackling technique and first contact
+in American football practice. It contains 737 athlete–dummy clips with six
+Standard Assessment of Tackling Technique (SATT) component scores and a zero-based
+frame index for the first point of contact (FPOC).
 
-> **Run all commands from the repository root.**
-> Scripts use package-relative imports (`from eval.metrics import ...`) that
-> require the repo root to be on the Python path. Running from a subdirectory
-> will produce `ModuleNotFoundError`.
-
-**Full dataset (~25 GB):** https://www.kaggle.com/datasets/ahsanzaidi786/tacklenet  
-**30-clip sample (~1 GB):** https://www.kaggle.com/datasets/ahsanzaidi786/tacklenet-sample
+This repository provides a dataset loader, annotations, a frozen
+train/validation/test split, baseline scripts, evaluation tools, and a usage
+notebook.
 
 ---
 
@@ -54,9 +50,7 @@ Task B methods are zero-shot and are evaluated on all 737 clips.
 tacklenet/
 ├── README.md
 ├── LICENSE
-├── CITATION.cff
 ├── requirements.txt
-├── CONTRIBUTING.md
 ├── .gitignore
 ├── data/
 │   ├── __init__.py
@@ -84,25 +78,23 @@ tacklenet/
 
 ## Quick Start
 
-**Interactive notebook (no setup required):**
-https://www.kaggle.com/code/ahsanzaidi786/tacklenet-usage
-
+Run the commands below from the repository root.
 
 ### 1. Install dependencies
 
 ```bash
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 ```
 
-### 2. Download the dataset
+### 2. Use a local copy of the videos
 
-```bash
-# Full dataset (~25 GB)
-kaggle datasets download ahsanzaidi786/tacklenet --unzip -p ./tacklenet_data
+For video-based examples, put the MP4s in `tacklenet_data/videos/`
+or pass their location with `--video_dir`. The annotation table and frozen
+split are already in `splits/`. The majority baseline and evaluator
+format check can run with the CSV files alone.
 
-# 30-clip sample (~1 GB) — for pipeline verification only
-kaggle datasets download ahsanzaidi786/tacklenet-sample --unzip -p ./tacklenet_sample
-```
+The usage notebook in `notebooks/` expects its input datasets under
+`/kaggle/input`. The command-line examples below use local paths.
 
 ---
 
@@ -111,7 +103,7 @@ kaggle datasets download ahsanzaidi786/tacklenet-sample --unzip -p ./tacklenet_s
 ### Run the majority baseline
 
 ```bash
-python baselines/majority_baseline.py \
+python -m baselines.majority_baseline \
     --annot   splits/annotations_satt_fpoc.csv \
     --splits  splits/splits_frozen.csv \
     --split   test \
@@ -123,7 +115,7 @@ Outputs: `majority_predictions.csv`, `majority_metrics.json`
 ### Evaluate Task A predictions
 
 ```bash
-python eval/evaluate_task_a.py \
+python -m eval.evaluate_task_a \
     --predictions outputs/majority_baseline/majority_predictions.csv \
     --splits      splits/splits_frozen.csv \
     --split       test \
@@ -149,18 +141,15 @@ See `examples/task_a_predictions_example.csv` for a 10-row format demo.
 ## Task B — Contact Onset Localization
 
 Task B methods are zero-shot and are evaluated on all 737 clips.
-The GRAZE pipeline (reference Task B method) is maintained separately:
-
-> https://github.com/AhsanZaidi12/GRAZE
-
-GRAZE predictions can be evaluated directly with `eval/evaluate_task_b.py`.
+The Task B evaluator accepts GRAZE predictions or predictions from another
+method in the format shown below.
 
 ### Run the center-frame baseline
 
 ```bash
-python baselines/center_frame_baseline.py \
+python -m baselines.center_frame_baseline \
     --annot     splits/annotations_satt_fpoc.csv \
-    --video_dir path/to/tacklenet_data/videos \
+    --video_dir tacklenet_data/videos \
     --out_dir   outputs/center_frame
 ```
 
@@ -170,7 +159,7 @@ Outputs: `center_frame_predictions.csv` (for the evaluator),
 ### Evaluate Task B predictions
 
 ```bash
-python eval/evaluate_task_b.py \
+python -m eval.evaluate_task_b \
     --predictions outputs/center_frame/center_frame_predictions.csv \
     --annot       splits/annotations_satt_fpoc.csv \
     --splits      splits/splits_frozen.csv \
@@ -187,12 +176,12 @@ validation only — not for benchmark reporting. Running against
 `--split test` (111 clips) will correctly show partial coverage.
 
 ```bash
-python eval/evaluate_task_b.py \
+python -m eval.evaluate_task_b \
     --predictions examples/task_b_predictions_example.csv \
     --annot       splits/annotations_satt_fpoc.csv \
     --splits      splits/splits_frozen.csv \
     --split       test \
-    --out_dir     /tmp/test_eval_b
+    --out_dir     outputs/task_b_smoke
 ```
 
 Expected output: `n_covered=10, n_total=111, coverage=9.0%`.
@@ -226,14 +215,11 @@ each input condition, save its test predictions, and run
 
 ## Split Policy
 
-Always use `splits/splits_frozen.csv`. Do not regenerate or substitute
-a custom split for benchmark-comparable results.
-See `splits/split_policy.md` for full details.
-
-The split is stratified at the clip level (seed 42, 70/15/15). It is
-not session-grouped because reliable session identifiers were not
-available at split construction time. `Session_ID` is provided in the
-annotation file for transparency and post-hoc analysis only.
+Use `splits/splits_frozen.csv` for results you want to compare with the
+frozen benchmark. The split uses clip-level stratification (seed 42, 70/15/15).
+Clips from one practice session can occur in different partitions. The
+`Session_ID` column is available for separate session-level analyses.
+See `splits/split_policy.md` for details.
 
 ### Verify the frozen split
 
@@ -266,9 +252,4 @@ All FPOC-windowed models use the locked asymmetric 32-frame window:
 
 Implemented in `data/loader.py` and demonstrated in
 `notebooks/tacklenet_usage.ipynb`.
-
----
-
-
-
 
